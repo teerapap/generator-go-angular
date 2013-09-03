@@ -1,4 +1,4 @@
-# AngularJS + Go generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-angular.png?branch=master)](http://travis-ci.org/yeoman/generator-angular)
+# AngularJS + Go generator [![Build Status](https://secure.travis-ci.org/teerapap/generator-go-angular.png?branch=master)](http://travis-ci.org/teerapap/generator-go-angular)
 
 Maintainer: [Teerapap Changwichukarn](https://github.com/teerapap)
 
