@@ -8,6 +8,8 @@
     "framework",
     "component",
     "front-end",
+    "go",
+    "golang",
     "app"
   ],
   "homepage": "https://github.com/teerapap/generator-go-angular",
