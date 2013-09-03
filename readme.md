@@ -1,15 +1,18 @@
-# AngularJS generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-angular.png?branch=master)](http://travis-ci.org/yeoman/generator-angular)
+# AngularJS + Go generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-angular.png?branch=master)](http://travis-ci.org/yeoman/generator-angular)
 
-Maintainer: [Brian Ford](https://github.com/btford)
+Maintainer: [Teerapap Changwichukarn](https://github.com/teerapap)
 
+Forked from [generator-go-angular](https://github.com/yeoman/generator-angular) maintained by [Brian Ford](https://github.com/btford).
 Based on [angular-seed](https://github.com/angular/angular-seed/)
+
+This project extends the upstream with a simple go server. The `grunt` toolchain uses the go server instead of the connect middleware. So you can develop a AngularJS application as a frontend and Go as a backend service with Yeoman workflow.
 
 
 ## Usage
 
-Install `generator-angular`:
+Install `generator-go-angular`:
 ```
-npm install -g generator-angular
+npm install -g generator-go-angular
 ```
 
 Make a new directory, and `cd` into it:
@@ -17,32 +20,32 @@ Make a new directory, and `cd` into it:
 mkdir my-new-project && cd $_
 ```
 
-Run `yo angular`, optionally passing an app name:
+Run `yo go-angular`, optionally passing an app name:
 ```
-yo angular [app-name]
+yo go-angular [app-name]
 ```
 
 ## Generators
 
 Available generators:
 
-* [angular](#app) (aka [angular:app](#app))
-* [angular:controller](#controller)
-* [angular:directive](#directive)
-* [angular:filter](#filter)
-* [angular:route](#route)
-* [angular:service](#service)
-* [angular:decorator] (#decorator)
-* [angular:view](#view)
+* [go-angular](#app) (aka [go-angular:app](#app))
+* [go-angular:controller](#controller)
+* [go-angular:directive](#directive)
+* [go-angular:filter](#filter)
+* [go-angular:route](#route)
+* [go-angular:service](#service)
+* [go-angular:decorator] (#decorator)
+* [go-angular:view](#view)
 
 **Note: Generators are to be run from the root directory of your app.**
 
 ### App
-Sets up a new AngularJS app, generating all the boilerplate you need to get started. The app generator also optionally installs Twitter Bootstrap and additional AngularJS modules, such as angular-resource.
+Sets up a new AngularJS app with a simple go server instead of connect, generating all the boilerplate you need to get started. The app generator also optionally installs Twitter Bootstrap and additional AngularJS modules, such as angular-resource.
 
 Example:
 ```bash
-yo angular
+yo go-angular
 ```
 
 ### Route
@@ -50,7 +53,7 @@ Generates a controller and view, and configures a route in `app/scripts/app.js` 
 
 Example:
 ```bash
-yo angular:route myroute
+yo go-angular:route myroute
 ```
 
 Produces `app/scripts/controllers/myroute.js`:
@@ -70,7 +73,7 @@ Generates a controller in `app/scripts/controllers`.
 
 Example:
 ```bash
-yo angular:controller user
+yo go-angular:controller user
 ```
 
 Produces `app/scripts/controllers/user.js`:
@@ -84,7 +87,7 @@ Generates a directive in `app/scripts/directives`.
 
 Example:
 ```bash
-yo angular:directive myDirective
+yo go-angular:directive myDirective
 ```
 
 Produces `app/scripts/directives/myDirective.js`:
@@ -105,7 +108,7 @@ Generates a filter in `app/scripts/filters`.
 
 Example:
 ```bash
-yo angular:filter myFilter
+yo go-angular:filter myFilter
 ```
 
 Produces `app/scripts/filters/myFilter.js`:
@@ -122,7 +125,7 @@ Generates an HTML view file in `app/views`.
 
 Example:
 ```bash
-yo angular:view user
+yo go-angular:view user
 ```
 
 Produces `app/views/user.html`:
@@ -135,7 +138,7 @@ Generates an AngularJS service.
 
 Example:
 ```bash
-yo angular:service myService
+yo go-angular:service myService
 ```
 
 Produces `app/scripts/services/myService.js`:
@@ -145,14 +148,14 @@ angular.module('myMod').service('myService', function () {
 });
 ```
 
-You can also do `yo angular:factory`, `yo angular:provider`, `yo angular:value`, and `yo angular:constant` for other types of services.
+You can also do `yo go-angular:factory`, `yo go-angular:provider`, `yo go-angular:value`, and `yo go-angular:constant` for other types of services.
 
 ### Decorator
 Generates an AngularJS service decorator.
 
 Example:
 ```bash
-yo angular:decorator serviceName
+yo go-angular:decorator serviceName
 ```
 
 Produces `app/scripts/decorators/serviceNameDecorator.js`:
@@ -173,7 +176,7 @@ For generators that output scripts, the `--coffee` option will output CoffeeScri
 
 For example:
 ```bash
-yo angular:controller user --coffee
+yo go-angular:controller user --coffee
 ```
 
 Produces `app/scripts/controller/user.coffee`:
@@ -189,7 +192,7 @@ By default, generators produce unannotated code. Without annotations, AngularJS'
 
 #### Example
 ```bash
-yo angular:controller user --minsafe
+yo go-angular:controller user --minsafe
 ```
 
 Produces `app/controller/user.js`:
