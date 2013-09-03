@@ -8,6 +8,8 @@ Example:
         Gruntfile.js
         bower.json
 
+        main.go
+
         app/index.html
         app/scripts/your-app-name-here.js
         app/scripts/controllers/main.js

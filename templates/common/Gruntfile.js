@@ -1,10 +1,6 @@
 // Generated on <%= (new Date).toISOString().split('T')[0] %> using <%= pkg.name %> <%= pkg.version %>
 'use strict';
 var LIVERELOAD_PORT = 35729;
-var lrSnippet = require('connect-livereload')({ port: LIVERELOAD_PORT });
-var mountFolder = function (connect, dir) {
-  return connect.static(require('path').resolve(dir));
-};
 
 // # Globbing
 // for performance reasons we're only matching one level down:
@@ -68,7 +64,14 @@ module.exports = function (grunt) {
         }]
       }
     },
-    connect: {
+    gobuild: {
+      dist: {
+        options: {
+          dist: '<%%= yeoman.dist %>/main'
+        }
+      }
+    },
+    goserver: {
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
@@ -76,38 +79,23 @@ module.exports = function (grunt) {
       },
       livereload: {
         options: {
-          middleware: function (connect) {
-            return [
-              lrSnippet,
-              mountFolder(connect, '.tmp'),
-              mountFolder(connect, yeomanConfig.app)
-            ];
-          }
+          staticDirs: ['.tmp', yeomanConfig.app]
         }
       },
       test: {
         options: {
-          middleware: function (connect) {
-            return [
-              mountFolder(connect, '.tmp'),
-              mountFolder(connect, 'test')
-            ];
-          }
+          staticDirs: ['.tmp', 'test']
         }
       },
       dist: {
         options: {
-          middleware: function (connect) {
-            return [
-              mountFolder(connect, yeomanConfig.dist)
-            ];
-          }
+          staticDirs: [yeomanConfig.dist]
         }
       }
     },
     open: {
       server: {
-        url: 'http://localhost:<%%= connect.options.port %>'
+        url: 'http://localhost:<%%= goserver.options.port %>'
       }
     },
     clean: {
@@ -344,16 +332,92 @@ module.exports = function (grunt) {
     }
   });
 
+
+  function runGo(cmd, args, opts, done) {
+    args.push('-p', opts.port);
+    args.push('-h', opts.hostname);
+    for (var i=0; i < opts.staticDirs.length-1;i++) {
+      args.push('-static_dir', opts.staticDirs[i]);
+    }
+    if (opts.staticDirs.length > 0) {
+      args.push(opts.staticDirs[opts.staticDirs.length-1]);
+    }
+
+    var goProcess = grunt.util.spawn({
+        cmd: cmd,
+        args: args,
+        opts: {
+          stdio:'pipe'
+        }
+      },
+      function(error, result, code) {
+        if (error) {
+          grunt.log.error(String(result));
+          grunt.fail.fatal('go-server exited with code: '+code, 3);
+        }
+      }
+    );
+    goProcess.stdout.pipe(process.stdout);
+    goProcess.stderr.pipe(process.stderr);
+    // Wait for spawned server to print something
+    goProcess.stdout.once('data', function() {
+      done();
+    });
+    process.on('exit', function() {
+      grunt.log.writeln('Killing go-server('+goProcess.pid+')...');
+      process.kill(-process.pid, 'SIGINT');
+      grunt.log.oklns('Killed go-server');
+    });
+
+  }
+
+  grunt.registerMultiTask('goserver', 'Running go server', function() {
+    var opts = this.options({
+        port: 9000,
+        hostname: 'localhost',
+      });
+    if (opts.dist) {
+      runGo(opts.dist,[], opts, this.async());
+    } else {
+      runGo('go',['run', 'main.go'], opts, this.async());
+    }
+  });
+
+  grunt.registerMultiTask('gobuild', 'Building go server', function() {
+    var opts = this.options({
+        dist: './main',
+        flags: [],
+      });
+
+    var done = this.async();
+    grunt.util.spawn({
+        cmd: 'go',
+        args: ['build','-o',opts.dist].concat(opts.flags),
+        opts: {
+          stdio:'inherit'
+        }
+      },
+      function(error, result, code) {
+        if (error) {
+          grunt.log.error(String(result));
+          grunt.fail.fatal('go-build exited with code: '+code, 3);
+        } else {
+          done();
+        }
+      }
+    );
+  });
+
   grunt.registerTask('server', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
+      return grunt.task.run(['build', 'open', 'goserver:dist']);
     }
 
     grunt.task.run([
       'clean:server',
       'concurrent:server',
       'autoprefixer',
-      'connect:livereload',
+      'goserver:livereload',
       'open',
       'watch'
     ]);
@@ -363,7 +427,7 @@ module.exports = function (grunt) {
     'clean:server',
     'concurrent:test',
     'autoprefixer',
-    'connect:test',
+    'goserver:test',
     'karma'
   ]);
 
@@ -379,7 +443,8 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'gobuild:dist'
   ]);
 
   grunt.registerTask('default', [

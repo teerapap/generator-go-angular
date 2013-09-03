@@ -224,3 +224,7 @@ Generator.prototype.packageFiles = function () {
   this.template('../../templates/common/_package.json', 'package.json');
   this.template('../../templates/common/Gruntfile.js', 'Gruntfile.js');
 };
+
+Generator.prototype.goFiles = function () {
+  this.copy('../../templates/go/main.go', 'main.go');
+};
