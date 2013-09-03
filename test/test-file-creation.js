@@ -25,7 +25,7 @@ describe('Angular generator', function () {
       if (err) {
         done(err);
       }
-      angular = helpers.createGenerator('angular:app', deps);
+      angular = helpers.createGenerator('go-angular:app', deps);
       angular.options['skip-install'] = true;
       done();
     });
@@ -105,7 +105,7 @@ describe('Angular generator', function () {
     it('should generate a new controller', function (done) {
       var angularCtrl;
       var deps = ['../../controller'];
-      angularCtrl = helpers.createGenerator('angular:controller', deps, ['foo']);
+      angularCtrl = helpers.createGenerator('go-angular:controller', deps, ['foo']);
 
       helpers.mockPrompt(angular, {
         bootstrap: true,
@@ -128,7 +128,7 @@ describe('Angular generator', function () {
     it('should generate a new view', function (done) {
       var angularView;
       var deps = ['../../view'];
-      angularView = helpers.createGenerator('angular:view', deps, ['foo']);
+      angularView = helpers.createGenerator('go-angular:view', deps, ['foo']);
 
       helpers.mockPrompt(angular, {
         bootstrap: true,
