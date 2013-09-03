@@ -2,7 +2,7 @@
 
 Maintainer: [Teerapap Changwichukarn](https://github.com/teerapap)
 
-Forked from [generator-go-angular](https://github.com/yeoman/generator-angular) maintained by [Brian Ford](https://github.com/btford).
+Forked from [generator-angular](https://github.com/yeoman/generator-angular) maintained by [Brian Ford](https://github.com/btford).
 Based on [angular-seed](https://github.com/angular/angular-seed/)
 
 This project extends the upstream with a simple go server. The `grunt` toolchain uses the go server instead of the connect middleware. So you can develop a AngularJS application as a frontend and Go as a backend service with Yeoman workflow.
