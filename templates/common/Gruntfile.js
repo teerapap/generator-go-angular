@@ -89,6 +89,7 @@ module.exports = function (grunt) {
       },
       dist: {
         options: {
+          dist: '<%%= gobuild.dist.options.dist %>',
           staticDirs: [yeomanConfig.dist]
         }
       }
@@ -377,7 +378,8 @@ module.exports = function (grunt) {
         hostname: 'localhost',
       });
     if (opts.dist) {
-      runGo(opts.dist,[], opts, this.async());
+      this.async(); // wait forever to keep the server alive
+      runGo(opts.dist,[], opts, function() {});
     } else {
       runGo('go',['run', 'main.go'], opts, this.async());
     }
@@ -410,7 +412,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('server', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'open', 'goserver:dist']);
+      return grunt.task.run(['build', 'goserver:dist']);
     }
 
     grunt.task.run([
