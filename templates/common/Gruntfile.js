@@ -84,11 +84,13 @@ module.exports = function (grunt) {
       },
       test: {
         options: {
+          port: 9001,
           staticDirs: ['.tmp', 'test']
         }
       },
       dist: {
         options: {
+          port: 9002,
           dist: '<%%= gobuild.dist.options.dist %>',
           staticDirs: [yeomanConfig.dist]
         }
