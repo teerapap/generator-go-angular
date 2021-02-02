@@ -1,3 +1,11 @@
+# :rotating_light: Warning
+
+This repository is DEPRECATED and no longer maintained.
+
+Thank you for all your contributions
+
+---
+
 # AngularJS + Go generator [![Build Status](https://secure.travis-ci.org/teerapap/generator-go-angular.png?branch=master)](http://travis-ci.org/teerapap/generator-go-angular)
 
 Maintainer: [Teerapap Changwichukarn](https://github.com/teerapap)
